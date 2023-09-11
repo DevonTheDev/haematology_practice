@@ -22,15 +22,14 @@ class TestEnv extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  var testPatient = Patient();
-
-  // Define a controller to get the user input from text fields
   final TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isWideScreen = screenWidth > 900; // Adjust this value as needed
+
+    var testPatient = Patient();
 
     double fontSize = isWideScreen ? 25 : 18;
 
@@ -57,6 +56,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Anaemia Classifications'),
+        backgroundColor: Colors.blue.shade300,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.exit_to_app),
@@ -146,7 +146,7 @@ class MyHomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
                       'Anaemia Classification',
@@ -155,28 +155,58 @@ class MyHomePage extends StatelessWidget {
                     TextFormField(
                       controller: textEditingController,
                       onFieldSubmitted: (userInput) {
-                        if (userInput != CBCSummary(testPatient.illness, testPatient.getSex) && userInput != "DebugMode")  {
+                        showDialog(
+                          context: context, // Pass your BuildContext here
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Submitted Values"),
+                              content: Text("$userInput (${CBCSummary(testPatient.illness, testPatient.getSex)})"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text("OK"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TestEnv()));
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 20), // Add some spacing
+                    SizedBox(
+                      width: double.infinity, // Make the button stretch the entire width
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue.shade300,
+                        ),
+                        onPressed: () {
+                          final userInput = textEditingController.text;
                           showDialog(
-                            context: context, // Pass your BuildContext here
+                            context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: const Text("Wrong Answer"),
-                                content: const Text("Your classification isn't quite right. Please try again."),
+                                title: const Text("Submitted Values"),
+                                content: Text("$userInput (${CBCSummary(testPatient.illness, testPatient.getSex)})"),
                                 actions: <Widget>[
                                   TextButton(
-                                    child: Text("OK"),
+                                    child: const Text("Retry", textScaleFactor: 2,),
                                     onPressed: () {
-                                      Navigator.of(context).pop(); // Close the dialog
+                                      Navigator.of(context).pop();
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TestEnv()));
                                     },
                                   ),
                                 ],
                               );
                             },
                           );
-                        }
-                      },
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+                        },
+                        child: const Text("Submit", textScaleFactor: 2.0,), // Button text
                       ),
                     ),
                   ],

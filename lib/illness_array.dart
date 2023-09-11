@@ -4,7 +4,7 @@ import 'illness_class.dart';
 // Cell Count Values = {Hb, RCC, MCV, PCV, MCH, MCHC, Platelet Count}
 
 Illness F_Iron_Deficiency_Anaemia = Illness("F Iron Deficiency Anaemia",
-    cellCountValues: [generateRandomFloat(65, 114),
+    cellCountValues: [generateRandomFloat(55, 114),
       generateRandomFloat(3.8, 4.8),
       generateRandomFloat(65, 80),
       generateRandomFloat(0.27, 0.35),
@@ -16,7 +16,7 @@ Illness F_Iron_Deficiency_Anaemia = Illness("F Iron Deficiency Anaemia",
     furtherTests: [SerumIron(-1), TIBCLevels(1), FerritinLevels(-1)]);
 
 Illness M_Iron_Deficiency_Anaemia = Illness("M Iron Deficiency Anaemia",
-    cellCountValues: [generateRandomFloat(75, 129),
+    cellCountValues: [generateRandomFloat(65, 129),
       generateRandomFloat(4.5, 6.5),
       generateRandomFloat(65, 80),
       generateRandomFloat(0.30, 0.38),
@@ -28,7 +28,7 @@ Illness M_Iron_Deficiency_Anaemia = Illness("M Iron Deficiency Anaemia",
     furtherTests: [SerumIron(-1), TIBCLevels(1), FerritinLevels(-1)]);
 
 Illness F_Lead_Intoxication = Illness("F Lead Intoxication",
-    cellCountValues: [generateRandomFloat(65, 114),
+    cellCountValues: [generateRandomFloat(55, 114),
           generateRandomFloat(3.8, 4.8),
           generateRandomFloat(65, 80),
           generateRandomFloat(0.27, 0.35),
@@ -40,7 +40,7 @@ Illness F_Lead_Intoxication = Illness("F Lead Intoxication",
     furtherTests: ["Lead levels showed evidence of lead poisoning"]);
 
 Illness M_Lead_Intoxication = Illness("M Lead Intoxication",
-    cellCountValues: [generateRandomFloat(75, 129),
+    cellCountValues: [generateRandomFloat(65, 129),
           generateRandomFloat(4.5, 6.5),
           generateRandomFloat(65, 80),
           generateRandomFloat(0.30, 0.38),
@@ -52,7 +52,7 @@ Illness M_Lead_Intoxication = Illness("M Lead Intoxication",
     furtherTests: ["Lead Levels showed evidence of lead poisoning"]);
 
 Illness F_AutoImmune_Hemolytic_Anaemia = Illness("F Autoimmune Hemolytic Anaemia",
-    cellCountValues: [generateRandomFloat(65, 114),
+    cellCountValues: [generateRandomFloat(55, 114),
       generateRandomFloat(2.6, 3.6),
       generateRandomFloat(80, 98),
       generateRandomFloat(0.27, 0.35),
@@ -64,7 +64,7 @@ Illness F_AutoImmune_Hemolytic_Anaemia = Illness("F Autoimmune Hemolytic Anaemia
     furtherTests: [CoombsTests(1)]);
 
 Illness M_AutoImmune_Hemolytic_Anaemia = Illness("M Autoimmune Hemolytic Anaemia",
-    cellCountValues: [generateRandomFloat(75, 129),
+    cellCountValues: [generateRandomFloat(65, 129),
       generateRandomFloat(3.2, 4.3),
       generateRandomFloat(80, 98),
       generateRandomFloat(0.27, 0.35),

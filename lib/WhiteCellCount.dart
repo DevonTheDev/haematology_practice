@@ -52,13 +52,17 @@ class _WhiteCellCount extends StatelessWidget {
     final whiteCellCount = (Random().nextDouble() * (20.0 - 3.0) + 3.0).toStringAsFixed(1);
     final absoluteNumbers = _generateAbsoluteNumbers(randomPercentages, double.parse(whiteCellCount));
     final List<bool> isInputCorrectList = List.filled(5, false);
-    print(absoluteNumbers);
 
     AlertDialog checkSubmission(BuildContext context) {
       List<Widget> resultWidgets = [];
 
       for (int i = 0; i < userCalculationControllerList.length; i++) {
         bool isCorrect = userCalculationControllerList[i].text == absoluteNumbers[i];
+        if (absoluteNumbers[i] == "0.00" && userCalculationControllerList[i].text != "") {
+          if (int.parse(userCalculationControllerList[i].text) == 0) {
+            isCorrect = true;
+          }
+        }
         isInputCorrectList[i] = isCorrect;
 
         Color textColor = isCorrect ? Colors.green : Colors.red;
@@ -82,7 +86,7 @@ class _WhiteCellCount extends StatelessWidget {
 
       return AlertDialog(
         title: const Text("Results"),
-        content: Container(
+        content: SizedBox(
           height: 200, // Adjust the height as needed
           width: 600,
           child: Center(
@@ -101,9 +105,10 @@ class _WhiteCellCount extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple.shade300),
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the AlertDialog
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => WhiteCellCount()),
                     );
@@ -126,6 +131,7 @@ class _WhiteCellCount extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('WBC Count Calculations'),
+        backgroundColor: Colors.deepPurple.shade300,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.exit_to_app),
@@ -227,13 +233,6 @@ class _WhiteCellCount extends StatelessWidget {
                                               ),
                                               controller: userCalculationControllerList[index - 1],
                                               textAlign: TextAlign.center,
-                                              onFieldSubmitted: (userInput) {
-                                                if (userInput == absoluteNumbers[index - 1]) {
-
-                                                } else {
-
-                                                }
-                                              },
                                             ),
                                           ),
                                         ],
@@ -247,7 +246,7 @@ class _WhiteCellCount extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 16.0), // Adjust the top padding as needed
+                        padding: const EdgeInsets.only(top: 16.0), // Adjust the top padding as needed
                         child: ElevatedButton(
                           onPressed: () {
                             showDialog(
@@ -257,7 +256,10 @@ class _WhiteCellCount extends StatelessWidget {
                               },
                             );
                           },
-                          child: Text("Submit", textScaleFactor: 2.0),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepPurple.shade300,
+                          ),
+                          child: const Text("Submit", textScaleFactor: 2.0),
                         ),
                       )
                     ],
