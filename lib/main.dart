@@ -15,12 +15,7 @@ class MyApp extends StatelessWidget {
     // Get screen width to scale content
     final screenWidth = MediaQuery.of(context).size.width;
 
-    /*
-    TODO:
-    - Implement routing capabilities
-      "/haematology" for homepage
-      "/haematology/*" for subpages
-    */
+    // TODO: Implement routing here (/haematology for main.dart and /haematology/* for subpages
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Haematology Practice',
