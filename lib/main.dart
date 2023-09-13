@@ -8,13 +8,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    // Get screen width to scale content
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Haematology Practice',
@@ -22,147 +19,103 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: MyHomePage(
-        title: 'Haematology Tester',
-        screenWidth: screenWidth, // Pass screen width to MyHomePage
-      ),
+      initialRoute: "/",
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/RBCparameters': (context) => const RBCParameterCalculations(),
+        '/WBCparameters': (context) => const WhiteCellCount(),
+        '/Anaemiaclassification': (context) => const TestEnv(),
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.screenWidth});
-  final String title;
-  final double screenWidth; // Added screenWidth property
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // Calculate font size and icon size based on screenWidth
-    final double fontSize = widget.screenWidth > 900 ? 30 : 20;
-    final double iconSize = widget.screenWidth > 900 ? 50 : 30;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double fontSize = screenWidth > 900 ? 30 : 20;
+    final double iconSize = screenWidth > 900 ? 50 : 30;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text('Haematology Practice'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            // Card with a cool background color
-            Card(
-              color: Colors.blue.shade300,
-              elevation: 5,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TestEnv(),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.assessment_rounded,
-                        size: iconSize,
-                        color: Colors.white,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Anaemia Classifications",
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            buildCard(
+              context,
+              Icons.assessment_rounded,
+              'Anaemia Classifications',
+              '/Anaemiaclassification',
+              iconSize,
+              fontSize,
+              Colors.blue.shade300,
             ),
-
-            // Card with a cool background color
-            Card(
-              color: Colors.deepPurple.shade300,
-              elevation: 5,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WhiteCellCount(),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.calculate,
-                        size: iconSize,
-                        color: Colors.white,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "WBC Count Calculations",
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            buildCard(
+              context,
+              Icons.calculate,
+              'WBC Count Calculations',
+              '/WBCparameters',
+              iconSize,
+              fontSize,
+              Colors.deepPurple.shade300,
             ),
-
-            // Card with a cool background color
-            Card(
-              color: Colors.green.shade300,
-              elevation: 5,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RBCParameterCalculations(),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.calculate_outlined,
-                        size: iconSize,
-                        color: Colors.white,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "RBC Parameter Calculations",
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            buildCard(
+              context,
+              Icons.calculate_outlined,
+              'RBC Parameter Calculations',
+              '/RBCparameters',
+              iconSize,
+              fontSize,
+              Colors.green.shade300,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildCard(
+      BuildContext context,
+      IconData iconData,
+      String text,
+      String routeName,
+      double iconSize,
+      double fontSize,
+      Color cardColor,
+      ) {
+    return Card(
+      color: cardColor,
+      elevation: 5,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, routeName);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Icon(
+                iconData,
+                size: iconSize,
+                color: Colors.white,
+              ),
+              SizedBox(height: 10),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
