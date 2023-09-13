@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      initialRoute: "/",
+      initialRoute: "/Haematology",
       routes: {
-        '/': (context) => const MyHomePage(),
+        '/Haematology': (context) => const MyHomePage(),
         '/RBCparameters': (context) => const RBCParameterCalculations(),
         '/WBCparameters': (context) => const WhiteCellCount(),
         '/Anaemiaclassification': (context) => const TestEnv(),
