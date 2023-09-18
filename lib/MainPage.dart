@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PortfolioApp extends StatelessWidget {
   const PortfolioApp({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class PortfolioPage extends StatelessWidget {
           ),
           child: const SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center, // Center everything
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 HeaderSection(),
                 SizedBox(height: 20),
@@ -90,18 +91,18 @@ class ProjectsSection extends StatelessWidget {
     // Define your list of projects here
     List<ProjectItem> _projects = [
       ProjectItem(
-        title: 'Project 1',
-        description: 'Description of Project 1',
-        dateAdded: DateTime(2023, 9, 1),
+        title: 'Haematology Tester',
+        description: 'A collection of exercises for aspiring haematology students',
+        dateAdded: DateTime(2023, 9, 18),
         language: 'Dart',
-        image: 'assets/project1_image.png', // Provide image path or URL
+        url: 'https://westwardcode.com/#/Haematology',
       ),
       ProjectItem(
-        title: 'Project 2',
-        description: 'Description of Project 2',
+        title: 'Speech to Text',
+        description: 'App for enhancing bedtime for kids',
         dateAdded: DateTime(2023, 8, 15),
-        language: 'Flutter',
-        image: 'assets/project2_image.png', // Provide image path or URL
+        language: 'Dart',
+        url: 'https://example.com/project2',
       ),
       // Add more ProjectItem widgets for additional projects
     ];
@@ -109,7 +110,7 @@ class ProjectsSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, // Center the text
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
             'Projects',
@@ -126,12 +127,21 @@ class ProjectsSection extends StatelessWidget {
             itemCount: _projects.length,
             itemBuilder: (context, index) {
               final project = _projects[index];
-              return ProjectItem(
-                title: project.title,
-                description: project.description,
-                dateAdded: project.dateAdded,
-                language: project.language,
-                image: project.image,
+              return InkWell(
+                onTap: () async {
+                  if (await canLaunch(project.url)) {
+                    await launch(project.url);
+                  } else {
+                    throw 'Could not launch ${project.url}';
+                  }
+                },
+                child: ProjectItem(
+                  title: project.title,
+                  description: project.description,
+                  dateAdded: project.dateAdded,
+                  language: project.language,
+                  url: project.url,
+                ),
               );
             },
           ),
@@ -147,7 +157,7 @@ class ProjectItem extends StatelessWidget {
   final String description;
   final DateTime dateAdded;
   final String language;
-  final String image; // Add image path or URL
+  final String url;
 
   const ProjectItem({
     Key? key,
@@ -155,7 +165,7 @@ class ProjectItem extends StatelessWidget {
     required this.description,
     required this.dateAdded,
     required this.language,
-    required this.image,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -169,10 +179,6 @@ class ProjectItem extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.asset(
-            image, // Use AssetImage or NetworkImage depending on your needs
-            height: 100, // Adjust the height as needed
-          ),
           SizedBox(height: 10),
           Text(
             title,
@@ -208,7 +214,7 @@ class ContactSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, // Center the text
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
             'Contact',
@@ -225,7 +231,7 @@ class ContactSection extends StatelessWidget {
               fontSize: 16,
               color: Colors.white,
             ),
-            textAlign: TextAlign.center, // Center the text
+            textAlign: TextAlign.center,
           ),
           Text(
             'LinkedIn: linkedin.com/in/yourprofile',
@@ -233,7 +239,7 @@ class ContactSection extends StatelessWidget {
               fontSize: 16,
               color: Colors.white,
             ),
-            textAlign: TextAlign.center, // Center the text
+            textAlign: TextAlign.center,
           ),
           // Add more contact information as needed
         ],

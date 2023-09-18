@@ -20,13 +20,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      initialRoute: "/Haematology",
+      initialRoute: "/",
       routes: {
         '/Haematology': (context) => const MyHomePage(),
         '/RBCparameters': (context) => const RBCParameterCalculations(),
         '/WBCparameters': (context) => const WhiteCellCount(),
         '/Anaemiaclassification': (context) => const AnaemiaClassification(),
-        //'/': (context) => const PortfolioPage(),
+        '/': (context) => const PortfolioPage(),
       },
     );
   }
