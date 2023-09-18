@@ -51,6 +51,7 @@ dev_dependencies:
   fluro: ^2.0.3
   mask_text_input_formatter:
   url_launcher:
+  speech_to_text:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

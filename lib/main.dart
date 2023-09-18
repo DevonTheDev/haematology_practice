@@ -3,6 +3,7 @@ import 'package:haematology_practice/Haematology/RBCParameterCalculations.dart';
 import 'package:haematology_practice/Haematology/WhiteCellCount.dart';
 import 'Haematology/CBCSummaryPage.dart';
 import 'package:haematology_practice/MainPage.dart';
+import 'ReadingSoundEffects/ReadingSoundEffects.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,11 +23,16 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
+        '/': (context) => const PortfolioPage(),
+
+        // HAEMATOLOGY LINKS
         '/Haematology': (context) => const MyHomePage(),
         '/RBCparameters': (context) => const RBCParameterCalculations(),
         '/WBCparameters': (context) => const WhiteCellCount(),
         '/Anaemiaclassification': (context) => const AnaemiaClassification(),
-        '/': (context) => const PortfolioPage(),
+
+        // SPEECH TO TEXT LINKS
+        '/SpeechToText' : (context) => SpeechRecognitionReading(),
       },
     );
   }

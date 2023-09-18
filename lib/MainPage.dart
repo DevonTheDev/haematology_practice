@@ -102,7 +102,7 @@ class ProjectsSection extends StatelessWidget {
         description: 'App for enhancing bedtime for kids',
         dateAdded: DateTime(2023, 8, 15),
         language: 'Dart',
-        url: 'https://example.com/project2',
+        url: 'https://westwardcode.com/#/SpeechToText',
       ),
       // Add more ProjectItem widgets for additional projects
     ];
