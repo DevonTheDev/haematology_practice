@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
-import 'main.dart';
+import '../main.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 void main() {
@@ -23,7 +23,14 @@ class RBCParameterCalculations extends StatelessWidget {
   }
 }
 
-class _RBCParameterCalculations extends StatelessWidget {
+class _RBCParameterCalculations extends StatefulWidget {
+  const _RBCParameterCalculations({Key? key}) : super(key: key);
+
+  @override
+  __RBCParameterCalculationsState createState() => __RBCParameterCalculationsState();
+}
+
+class __RBCParameterCalculationsState extends State<_RBCParameterCalculations> {
   final randomlyGeneratedParameters = randomParameters();
 
   final List<String> titles = [
@@ -35,12 +42,14 @@ class _RBCParameterCalculations extends StatelessWidget {
     'MCHC',
   ];
 
-  final TextEditingController textController0 = TextEditingController();
-  final TextEditingController textController1 = TextEditingController();
-  final TextEditingController textController2 = TextEditingController();
-  final TextEditingController textController3 = TextEditingController();
-  final TextEditingController textController4 = TextEditingController();
-  final TextEditingController textController5 = TextEditingController();
+  final List<TextEditingController> textControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
 
   // Input Masks to make sure correct input is achieved
   final List<TextInputFormatter> inputFormatters = [
@@ -69,6 +78,15 @@ class _RBCParameterCalculations extends StatelessWidget {
       filter: {'#': RegExp(r'[0-9]')},
     ),
   ];
+
+  @override
+  void dispose() {
+    // Dispose of the text controllers to avoid memory leaks
+    for (var controller in textControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,17 +166,7 @@ class _RBCParameterCalculations extends StatelessWidget {
                               ),
                             ),
                             inputFormatters: [inputFormatters[index]],
-                            controller: index == 0
-                                ? textController0
-                                : index == 1
-                                ? textController1
-                                : index == 2
-                                ? textController2
-                                : index == 3
-                                ? textController3
-                                : index == 4
-                                ? textController4
-                                : textController5, // Create a controller
+                            controller: textControllers[index], // Use the respective controller
                           ),
                         ),
                       ),
@@ -247,17 +255,17 @@ class _RBCParameterCalculations extends StatelessWidget {
   String _getUserValue(int index) {
     switch (index) {
       case 0:
-        return "${textController0.text} g/L";
+        return "${textControllers[0].text} g/L";
       case 1:
-        return "${textController1.text} x10^12/L";
+        return "${textControllers[1].text} x10^12/L";
       case 2:
-        return "${textController2.text} fL";
+        return "${textControllers[2].text} fL";
       case 3:
-        return "${textController3.text} L/L";
+        return "${textControllers[3].text} L/L";
       case 4:
-        return "${textController4.text} pg";
+        return "${textControllers[4].text} pg";
       case 5:
-        return "${textController5.text} g/L";
+        return "${textControllers[5].text} g/L";
       default:
         return '';
     }
@@ -337,25 +345,25 @@ class _RBCParameterCalculations extends StatelessWidget {
   }
 }
 
-List<double> randomParameters(){
+List<double> randomParameters() {
   List<double> parameters = [0, 0, 0, 0, 0, 0];
 
   var groups = [["Hb", "RCC", "PCV"], ["MCHC", "PCV", "RCC"]];
   var selectedGroup = groups[Random().nextInt(groups.length)];
 
-  for (var group in selectedGroup){
-    switch (group){
+  for (var group in selectedGroup) {
+    switch (group) {
       case "Hb":
-        parameters[0] = (70.00 + Random().nextDouble() * (200-70));
+        parameters[0] = (70.00 + Random().nextDouble() * (200 - 70));
         break;
       case "RCC":
-        parameters[1] = (3.8 + Random().nextDouble() * (6.5-4.8));
+        parameters[1] = (3.8 + Random().nextDouble() * (6.5 - 4.8));
         break;
       case "MCHC":
         parameters[5] = (300 + Random().nextDouble() * (360 - 300));
         break;
       case "PCV":
-        parameters[3] = (0.35 + Random().nextDouble() * (0.55-0.35));
+        parameters[3] = (0.35 + Random().nextDouble() * (0.55 - 0.35));
         break;
     }
   }

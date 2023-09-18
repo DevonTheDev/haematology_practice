@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:haematology_practice/RBCParameterCalculations.dart';
-import 'package:haematology_practice/WhiteCellCount.dart';
-import 'CBCSummaryPage.dart';
+import 'package:haematology_practice/Haematology/RBCParameterCalculations.dart';
+import 'package:haematology_practice/Haematology/WhiteCellCount.dart';
+import 'Haematology/CBCSummaryPage.dart';
+import 'package:haematology_practice/MainPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Haematology Practice',
+      title: 'Westward Code',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         '/Haematology': (context) => const MyHomePage(),
         '/RBCparameters': (context) => const RBCParameterCalculations(),
         '/WBCparameters': (context) => const WhiteCellCount(),
-        '/Anaemiaclassification': (context) => const TestEnv(),
+        '/Anaemiaclassification': (context) => const AnaemiaClassification(),
+        //'/': (context) => const PortfolioPage(),
       },
     );
   }
