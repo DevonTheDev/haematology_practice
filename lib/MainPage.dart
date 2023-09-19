@@ -104,7 +104,6 @@ class ProjectsSection extends StatelessWidget {
         language: 'Dart',
         url: 'https://westwardcode.com/#/SpeechToText',
       ),
-      // Add more ProjectItem widgets for additional projects
     ];
 
     return Container(

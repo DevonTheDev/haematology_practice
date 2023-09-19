@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:permission_handler/permission_handler.dart';
 
-// Main function only used for testing
 void main() {
   runApp(SpeechRecognitionReading());
 }
@@ -27,6 +27,45 @@ class _SpeechToTextDemoState extends State<SpeechToTextDemo> {
   String _text = 'Press the button and start speaking';
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize the permission handler
+    _initPermission();
+  }
+
+  Future<void> _initPermission() async {
+    final microphoneStatus = await Permission.microphone.request();
+    if (microphoneStatus.isGranted) {
+      // Microphone permission granted, you can now initialize speech recognition
+      _initializeSpeechRecognition();
+    } else {
+      // Handle denied permission (optional)
+    }
+  }
+
+  void _initializeSpeechRecognition() {
+    _speech.initialize(
+      onStatus: (status) {
+        if (status == stt.SpeechToText.listeningStatus) {
+          setState(() {
+            _isListening = true;
+          });
+        } else if (status == stt.SpeechToText.notListeningStatus) {
+          setState(() {
+            _isListening = false;
+          });
+        }
+      },
+      onError: (error) {
+        print('Error: $error');
+        setState(() {
+          _isListening = false;
+        });
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -36,14 +75,13 @@ class _SpeechToTextDemoState extends State<SpeechToTextDemo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Wrap the Text widget with SingleChildScrollView for scrolling
             SingleChildScrollView(
-              scrollDirection: Axis.vertical, // Vertical scrolling
+              scrollDirection: Axis.vertical,
               padding: EdgeInsets.all(16.0),
               child: Text(
                 _text,
-                style: TextStyle(fontSize: 24.0), // Increase the font size
-                softWrap: true, // Enable automatic text wrapping
+                style: TextStyle(fontSize: 24.0),
+                softWrap: true,
               ),
             ),
             SizedBox(height: 20.0),
@@ -57,44 +95,17 @@ class _SpeechToTextDemoState extends State<SpeechToTextDemo> {
     );
   }
 
-  void _toggleListening() async {
+  void _toggleListening() {
     if (!_isListening) {
-      bool available = await _speech.initialize(
-        onStatus: (status) {
-          if (status == stt.SpeechToText.listeningStatus) {
-            setState(() {
-              _isListening = true;
-            });
-          } else if (status == stt.SpeechToText.notListeningStatus) {
-            setState(() {
-              _isListening = false;
-            });
-          }
-        },
-        onError: (error) {
-          print('Error: $error');
+      _speech.listen(
+        onResult: (result) {
           setState(() {
-            _isListening = false;
+            _text = result.recognizedWords;
           });
         },
       );
-
-      if (available) {
-        _speech.listen(
-          onResult: (result) {
-            setState(() {
-              _text = result.recognizedWords;
-            });
-          },
-          // Set listenFor to a longer duration (e.g., 30 minutes) to continuously listen
-          listenFor: Duration(minutes: 30), // Adjust this as needed
-        );
-      }
     } else {
       _speech.stop();
-      setState(() {
-        _isListening = false;
-      });
     }
   }
 
